@@ -4,9 +4,11 @@ import { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
 import {
   Search, PlusCircle, MapPin, ShieldCheck, Wrench, Music,
-  Tractor, Camera, Sparkles, ArrowLeft, BadgeCheck, Zap, Headphones
+  Tractor, Camera, Sparkles, ArrowLeft, BadgeCheck, Zap, Headphones,
+  Hammer, BatteryCharging, Tent, HeartPulse, Truck, Home as HomeIcon
 } from "lucide-react";
 import Link from "next/link";
+import { EGYPT_LOCATIONS, EQUIPMENT_CATEGORIES } from "@/lib/locations";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -24,13 +26,19 @@ interface Equipment {
   image_url: string;
 }
 
-const CATEGORIES = [
-  { name: "الكل", icon: Sparkles },
-  { name: "معدات بناء وصيانة", icon: Wrench },
-  { name: "أفراح ومناسبات", icon: Music },
-  { name: "معدات زراعية", icon: Tractor },
-  { name: "تصوير وإلكترونيات", icon: Camera },
-];
+const CATEGORY_ICONS: Record<string, any> = {
+  "الكل": Sparkles,
+  "معدات بناء وهدم": Hammer,
+  "عدد يدوية وكهربائية": Wrench,
+  "أفراح وصوتيات وإضاءة": Music,
+  "كاميرات وتصوير ومونتاج": Camera,
+  "معدات زراعية وري": Tractor,
+  "مولدات كهرباء وضواغط": BatteryCharging,
+  "رحلات وتخييم وشواء": Tent,
+  "أجهزة طبية ورعاية منزلية": HeartPulse,
+  "أدوات تنظيف وصيانة منزلية": HomeIcon,
+  "سيارات ومقطورات ونقل": Truck,
+};
 
 export default function Home() {
   const [equipments, setEquipments] = useState<Equipment[]>([]);
@@ -62,6 +70,7 @@ export default function Home() {
     return matchText && matchGov && matchCity && matchCat;
   });
 
+  const citiesList = selectedGov !== "الكل" ? (EGYPT_LOCATIONS[selectedGov] || []) : [];
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-900">
       <header className="bg-white/90 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-50">
@@ -72,7 +81,7 @@ export default function Home() {
             </div>
             <div className="hidden sm:block">
               <p className="font-extrabold text-slate-900 leading-none">منصة أجرني</p>
-              <p className="text-xs text-slate-500 mt-1">استأجر أي معدة في منطقتك بأمان</p>
+              <p className="text-xs text-slate-500 mt-1">استأجر أي معدة في كل محافظات مصر</p>
             </div>
           </Link>
 
@@ -91,7 +100,7 @@ export default function Home() {
         <div className="relative max-w-5xl mx-auto text-center space-y-6">
           <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold">
             <BadgeCheck className="w-4 h-4" />
-            <span>المنصة الموثوقة لتأجير المعدات بين الأفراد في مصر</span>
+            <span>أكبر منصة لتأجير المعدات والأدوات في 27 محافظة</span>
           </div>
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-tight">
@@ -102,7 +111,7 @@ export default function Home() {
           </h1>
 
           <p className="text-slate-300 text-base sm:text-xl max-w-2xl mx-auto leading-relaxed">
-            استأجر معدات البناء، أنظمة الصوت والأفراح، والكاميرات من جيرانك في شبين القناطر وكل المحافظات بأقل تكلفة وضمان كامل.
+            استأجر معدات البناء، أنظمة الصوت والأفراح، الكاميرات، والمولدات من جيرانك في أي محافظة بأقل تكلفة وضمان كامل.
           </p>
 
           <div className="bg-white p-3 rounded-3xl shadow-2xl shadow-black/40 text-slate-800 mt-10 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-2.5 border border-slate-100">
@@ -110,7 +119,7 @@ export default function Home() {
               <Search className="w-5 h-5 text-slate-400 absolute right-4" />
               <input
                 type="text"
-                placeholder="ابحث عن دريل، هيلتي، سماعة، سلم..."
+                placeholder="ابحث عن دريل، هيلتي، سماعة، مولد..."
                 className="w-full pr-12 pl-4 py-3.5 bg-slate-50 hover:bg-slate-100/80 focus:bg-white rounded-2xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -123,10 +132,10 @@ export default function Home() {
                 value={selectedGov}
                 onChange={(e) => { setSelectedGov(e.target.value); setSelectedCity("الكل"); }}
               >
-                <option value="الكل">📍 كل المحافظات</option>
-                <option value="القليوبية">القليوبية</option>
-                <option value="القاهرة">القاهرة</option>
-                <option value="الجيزة">الجيزة</option>
+                <option value="الكل">📍 كل المحافظات (27)</option>
+                {Object.keys(EGYPT_LOCATIONS).map((gov) => (
+                  <option key={gov} value={gov}>{gov}</option>
+                ))}
               </select>
             </div>
 
@@ -137,27 +146,9 @@ export default function Home() {
                 onChange={(e) => setSelectedCity(e.target.value)}
               >
                 <option value="الكل">🏘️ كل المدن والمراكز</option>
-                {selectedGov === "القليوبية" && (
-                  <>
-                    <option value="شبين القناطر">شبين القناطر</option>
-                    <option value="بنها">بنها</option>
-                    <option value="الخانكة">الخانكة</option>
-                    <option value="القناطر الخيرية">القناطر الخيرية</option>
-                    <option value="طوخ">طوخ</option>
-                  </>
-                )}
-                {selectedGov === "القاهرة" && (
-                  <>
-                    <option value="مدينة نصر">مدينة نصر</option>
-                    <option value="التجمع الخامس">التجمع الخامس</option>
-                  </>
-                )}
-                {selectedGov === "الجيزة" && (
-                  <>
-                    <option value="الشيخ زايد">الشيخ زايد</option>
-                    <option value="6 أكتوبر">6 أكتوبر</option>
-                  </>
-                )}
+                {citiesList.map((city) => (
+                  <option key={city} value={city}>{city}</option>
+                ))}
               </select>
             </div>
           </div>
@@ -169,23 +160,25 @@ export default function Home() {
           </div>
         </div>
       </section>
- <div className="max-w-7xl mx-auto px-4 sm:px-6 -mt-8 relative z-10 w-full">
+
+      {/* شريط الأقسام العشرة */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 -mt-8 relative z-10 w-full">
         <div className="bg-white p-3 rounded-3xl shadow-lg shadow-slate-200/60 border border-slate-100 flex items-center gap-2 overflow-x-auto">
-          {CATEGORIES.map((cat) => {
-            const Icon = cat.icon;
-            const active = selectedCategory === cat.name;
+          {["الكل", ...EQUIPMENT_CATEGORIES].map((catName) => {
+            const Icon = CATEGORY_ICONS[catName] || Sparkles;
+            const active = selectedCategory === catName;
             return (
               <button
-                key={cat.name}
-                onClick={() => setSelectedCategory(cat.name)}
-                className={`flex items-center gap-2.5 px-5 py-3 rounded-2xl font-bold text-sm whitespace-nowrap transition-all ${
+                key={catName}
+                onClick={() => setSelectedCategory(catName)}
+                className={`flex items-center gap-2 px-4 py-3 rounded-2xl font-bold text-xs sm:text-sm whitespace-nowrap transition-all ${
                   active
                     ? "bg-emerald-600 text-white shadow-md shadow-emerald-600/25"
                     : "text-slate-600 hover:bg-slate-100"
                 }`}
               >
                 <Icon className="w-4 h-4" />
-                <span>{cat.name}</span>
+                <span>{catName}</span>
               </button>
             );
           })}
@@ -212,12 +205,8 @@ export default function Home() {
             </div>
             <h3 className="text-2xl font-black text-slate-900">لا توجد معدات مطابقة لبحثك حالياً</h3>
             <p className="text-slate-500 text-sm">جرّب اختيار "كل المحافظات" أو كن أول من يعرض معدته في هذه المنطقة!</p>
-            <Link
-              href="/add"
-              className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3.5 rounded-2xl font-bold transition shadow-lg shadow-emerald-600/20"
-            >
-              <PlusCircle className="w-5 h-5" />
-              <span>أضف أول معدة الآن</span>
+            <Link href="/add" className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3.5 rounded-2xl font-bold transition shadow-lg">
+              <PlusCircle className="w-5 h-5" /> <span>أضف أول معدة الآن</span>
             </Link>
           </div>
         ) : (
@@ -226,19 +215,13 @@ export default function Home() {
               <Link
                 href={`/item/${item.id}`}
                 key={item.id}
-                className="group bg-white rounded-3xl overflow-hidden border border-slate-200/70 hover:border-emerald-500/40 shadow-sm hover:shadow-xl hover:shadow-slate-200/70 transition-all duration-300 flex flex-col"
+                className="group bg-white rounded-3xl overflow-hidden border border-slate-200/70 hover:border-emerald-500/40 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col"
               >
                 <div className="h-56 bg-slate-100 relative overflow-hidden">
                   {item.image_url ? (
-                    <img
-                      src={item.image_url}
-                      alt={item.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
+                    <img src={item.image_url} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-slate-400 font-medium">
-                      لا توجد صورة
-                    </div>
+                    <div className="w-full h-full flex items-center justify-center text-slate-400 font-medium">لا توجد صورة</div>
                   )}
                   <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm text-slate-800 text-xs font-extrabold px-3.5 py-1.5 rounded-full shadow-sm">
                     {item.category}
@@ -254,73 +237,7 @@ export default function Home() {
                       <MapPin className="w-3.5 h-3.5" />
                       <span>{item.governorate} • {item.city}</span>
                     </div>
-                    <h3 className="text-xl font-extrabold text-slate-900 group-hover:text-emerald-600 transition line-clamp-1">
-                      {item.title}
-                    </h3>
-                    <p className="text-sm text-slate-500 line-clamp-2 mt-1.5 leading-relaxed">
-                      {item.description || "معدة بحالة ممتازة وجاهزة للاستلام الفوري."}
-                    </p>
+                    <h3 className="text-xl font-extrabold text-slate-900 group-hover:text-emerald-600 transition line-clamp-1">{item.title}</h3>
+                    <p className="text-sm text-slate-500 line-clamp-2 mt-1.5 leading-relaxed">{item.description || "معدة بحالة ممتازة وجاهزة للاستلام الفوري."}</p>
                   </div>
 
-                  <div className="pt-4 border-t border-slate-100 flex justify-between items-center">
-                    <div>
-                      <span className="text-xs text-slate-400 block">سعر الإيجار اليومي</span>
-                      <span className="text-2xl font-black text-slate-900">{item.daily_price}</span>
-                      <span className="text-xs font-bold text-slate-500"> جنيه / يوم</span>
-                    </div>
-
-                    <span className="bg-slate-100 group-hover:bg-emerald-600 text-slate-900 group-hover:text-white px-4 py-2.5 rounded-2xl text-sm font-bold flex items-center gap-1.5 transition-colors">
-                      <span>احجز الآن</span>
-                      <ArrowLeft className="w-4 h-4" />
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        )}
-      </main>
-
-      <section className="bg-white border-t border-slate-200/70 py-16 px-4 sm:px-6 mt-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="text-3xl font-black text-slate-900">كيف تستأجر من أجرني؟</h2>
-            <p className="text-slate-500 mt-2">خطوات بسيطة وآمنة تضمن حق المستأجر وصاحب المعدة</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-slate-50 p-8 rounded-3xl border border-slate-100 space-y-3">
-              <div className="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center font-black text-xl">1</div>
-              <h3 className="text-xl font-bold text-slate-900">اختر المعدة والمدة</h3>
-              <p className="text-slate-500 text-sm leading-relaxed">تصفح المعدات المتاحة في مدينتك وحدد عدد أيام الإيجار المناسبة لشغلك.</p>
-            </div>
-            <div className="bg-slate-50 p-8 rounded-3xl border border-slate-100 space-y-3">
-              <div className="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center font-black text-xl">2</div>
-              <h3 className="text-xl font-bold text-slate-900">أكّد حجزك بالعربون</h3>
-              <p className="text-slate-500 text-sm leading-relaxed">ادفع عربون جدية الحجز (20%) عبر إنستاباي أو فودافون كاش ليصلك رقم وعنوان المؤجر فوراً.</p>
-            </div>
-            <div className="bg-slate-50 p-8 rounded-3xl border border-slate-100 space-y-3">
-              <div className="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center font-black text-xl">3</div>
-              <h3 className="text-xl font-bold text-slate-900">استلم وادفع الباقي</h3>
-              <p className="text-slate-500 text-sm leading-relaxed">افحص المعدة واستلمها يداً بيد، وادفع باقي المبلغ لصاحب المعدة بكل أمان.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <footer className="bg-slate-950 text-slate-400 py-12 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-3">
-            <span className="bg-emerald-600 text-white font-black text-xl px-3 py-1 rounded-xl">أجرني</span>
-            <span className="text-sm">منصة الاقتصاد التشاركي وتأجير المعدات في مصر.</span>
-          </div>
-          <div className="flex items-center gap-6 text-sm">
-            <Link href="/add" className="hover:text-white transition">اعرض معدتك</Link>
-            <span className="flex items-center gap-1.5 text-emerald-400 font-semibold">
-              <ShieldCheck className="w-4 h-4" /> جميع الحسابات موثقة بالبطاقة
-            </span>
-          </div>
-        </div>
-      </footer>
-    </div>
-  );
-}
