@@ -2,10 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
-import {
-  Search, PlusCircle, MapPin, ShieldCheck, Wrench, Music,
-  Tractor, Camera, Sparkles, ArrowLeft, BadgeCheck, Zap, Headphones
-} from "lucide-react";
+import { Search, PlusCircle, MapPin, ShieldCheck, ArrowLeft, BadgeCheck } from "lucide-react";
 import Link from "next/link";
 
 const supabase = createClient(
@@ -252,8 +249,20 @@ export default function Home() {
         )}
       </main>
 
-      <footer className="bg-slate-950 text-slate-400 py-10 px-4 text-center text-sm">
-        <p>© 2026 منصة أجرني — تأجير المعدات والأدوات في كل محافظات مصر.</p>
+      <footer className="bg-slate-950 text-slate-400 py-12 px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex items-center gap-3">
+            <span className="bg-emerald-600 text-white font-black text-xl px-3 py-1 rounded-xl">أجرني</span>
+            <span className="text-sm">منصة الاقتصاد التشاركي وتأجير المعدات في كل محافظات مصر.</span>
+          </div>
+          <div className="flex items-center gap-6 text-sm">
+            <Link href="/add" className="hover:text-white transition">اعرض معدتك</Link>
+            <Link href="/terms" className="hover:text-white transition">الشروط والأحكام</Link>
+            <span className="flex items-center gap-1.5 text-emerald-400 font-semibold">
+              <ShieldCheck className="w-4 h-4" /> حسابات موثقة
+            </span>
+          </div>
+        </div>
       </footer>
     </div>
   );
