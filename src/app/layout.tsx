@@ -18,13 +18,13 @@ export default function RootLayout({
         {children}
 
         <a
-          href="https://wa.me"
+          href="https://201063686679"
           target="_blank"
           rel="noopener noreferrer"
-          className="fixed bottom-6 left-6 z-50 bg-[#25D366] hover:bg-[#1ebe5d] text-white px-4 py-3.5 rounded-full shadow-xl flex items-center gap-2 font-bold text-sm transition-transform hover:scale-105"
+          className="fixed bottom-6 left-6 z-50 bg-[#25D366] hover:bg-[#1ebe5d] text-white px-4 py-3.5 rounded-full shadow-xl flex items-center gap-2 font-bold text-sm"
         >
-          <MessageCircle className="w-6 h-6 fill-white text-[#25D366]" />
-          <span className="hidden sm:inline">تواصل معنا</span>
+          <MessageCircle className="w-6 h-6" />
+          <span>تواصل معنا</span>
         </a>
       </body>
     </html>
