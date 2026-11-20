@@ -12,8 +12,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const WHATSAPP_NUMBER = "201063686679"; // اكتب 2 ثم رقمك المكون من 11 رقماً (مثال: 201012345678)
-  const MESSAGE = encodeURIComponent("السلام عليكم، عندي استفسار بخصوص منصة أجرني");
+  const WHATSAPP_NUMBER = "201063686679"; // ضع رقمك بالأرقام الإنجليزية: 2010xxxxxxxx
 
   return (
     <html lang="ar" dir="rtl">
@@ -21,7 +20,7 @@ export default function RootLayout({
         {children}
 
         <a
-          href={`https://whatsapp.com{WHATSAPP_NUMBER}&text=${MESSAGE}`}
+          href={`https://wa.me{WHATSAPP_NUMBER}`}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="تواصل معنا عبر واتساب"
