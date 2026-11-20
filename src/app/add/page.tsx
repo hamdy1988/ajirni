@@ -57,7 +57,7 @@ export default function AddEquipment() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [title, setTitle] = useState("");
-  const [category, setCategory] = useState(CATEGORIES[0]);
+  const [category, setCategory] = useState("معدات بناء وصيانة");
   const [description, setDescription] = useState("");
   const [dailyPrice, setDailyPrice] = useState("");
   const [governorate, setGovernorate] = useState("القليوبية");
@@ -168,7 +168,8 @@ export default function AddEquipment() {
                   onChange={(e) => {
                     const newGov = e.target.value;
                     setGovernorate(newGov);
-                    setCity(EGYPT_LOCATIONS[newGov]?.[0] || "");
+                    const nextCities = EGYPT_LOCATIONS[newGov] || [];
+                    setCity(nextCities.at(0) || "");
                   }}
                 >
                   {Object.keys(EGYPT_LOCATIONS).map((gov) => (
@@ -226,6 +227,3 @@ export default function AddEquipment() {
 
           <button disabled={loading} type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-4 rounded-2xl text-lg shadow-lg transition disabled:opacity-50">
             {loading ? "جاري رفع المعدة والبيانات..." : "إرسال المعدة للمراجعة والنشر"}
-          </button>
-        </form>
-      </div>
