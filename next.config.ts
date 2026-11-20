@@ -1,16 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
-  turbopack: {
-    rules: {
-      "*.css": {
-        loaders: ["@tailwindcss/turbopack"],
-        as: "*.css",
-      },
-    },
+  env: {
+    NEXT_PUBLIC_SUPABASE_URL: "https://supabase.co",
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: "sb_publishable_pfy0B-Q4ZpLd_FegI0kZqQ_7N9Cyw6B",
   },
 };
 
