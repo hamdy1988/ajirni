@@ -74,104 +74,7 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-900">
       <header className="bg-white/90 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex justify-between items-center">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="bg-gradient-to-tr from-emerald-600 to-teal-500 text-white font-black text-2xl px-4 py-2 rounded-2xl shadow-md shadow-emerald-600/20">
-              أجرني
-            </div>
-            <div className="hidden sm:block">
-              <p className="font-extrabold text-slate-900 leading-none">منصة أجرني</p>
-              <p className="text-xs text-slate-500 mt-1">استأجر أي معدة في كل محافظات مصر</p>
-            </div>
-          </Link>
-
-          <Link
-            href="/add"
-            className="bg-slate-900 hover:bg-emerald-600 text-white px-5 py-3 rounded-2xl font-bold text-sm flex items-center gap-2 transition-all duration-300 shadow-sm hover:shadow-lg hover:shadow-emerald-600/20"
-          >
-            <PlusCircle className="w-5 h-5" />
-            <span>اعرض معدتك واكسب</span>
-          </Link>
-        </div>
-      </header>
-
-      <section className="relative overflow-hidden bg-slate-950 text-white pt-16 pb-28 px-4">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-emerald-600/35 via-slate-950 to-slate-950" />
-        <div className="relative max-w-5xl mx-auto text-center space-y-6">
-          <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold">
-            <BadgeCheck className="w-4 h-4" />
-            <span>أكبر منصة لتأجير المعدات والأدوات في 27 محافظة</span>
-          </div>
-
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-tight">
-            ليش تشتريها بآلاف..{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-l from-emerald-400 to-teal-300">
-              استأجرها ليوم!
-            </span>
-          </h1>
-
-          <p className="text-slate-300 text-base sm:text-xl max-w-2xl mx-auto leading-relaxed">
-            استأجر معدات البناء، أنظمة الصوت والأفراح، الكاميرات، والمولدات من جيرانك في أي محافظة بأقل تكلفة وضمان كامل.
-          </p>
-
-          <div className="bg-white p-3 rounded-3xl shadow-2xl shadow-black/40 text-slate-800 mt-10 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-2.5 border border-slate-100">
-            <div className="md:col-span-5 relative flex items-center">
-              <Search className="w-5 h-5 text-slate-400 absolute right-4" />
-              <input
-                type="text"
-                placeholder="ابحث عن دريل، هيلتي، سماعة، مولد..."
-                className="w-full pr-12 pl-4 py-3.5 bg-slate-50 hover:bg-slate-100/80 focus:bg-white rounded-2xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-
-            <div className="md:col-span-3">
-              <select
-                className="w-full px-4 py-3.5 bg-slate-50 hover:bg-slate-100/80 rounded-2xl text-sm font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer"
-                value={selectedGov}
-                onChange={(e) => { setSelectedGov(e.target.value); setSelectedCity("الكل"); }}
-              >
-                <option value="الكل">📍 كل المحافظات (27)</option>
-                {Object.keys(EGYPT_LOCATIONS).map((gov) => (
-                  <option key={gov} value={gov}>{gov}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className="md:col-span-4">
-              <select
-                className="w-full px-4 py-3.5 bg-slate-50 hover:bg-slate-100/80 rounded-2xl text-sm font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer"
-                value={selectedCity}
-                onChange={(e) => setSelectedCity(e.target.value)}
-              >
-                <option value="الكل">🏘️ كل المدن والمراكز</option>
-                {citiesList.map((city) => (
-                  <option key={city} value={city}>{city}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          <div className="pt-6 flex flex-wrap justify-center gap-6 text-xs sm:text-sm text-slate-300 font-medium">
-            <span className="flex items-center gap-1.5"><ShieldCheck className="w-4 h-4 text-emerald-400" /> حسابات موثقة بالبطاقة الشخصية</span>
-            <span className="flex items-center gap-1.5"><Zap className="w-4 h-4 text-emerald-400" /> حجز فوري واستلام يداً بيد</span>
-            <span className="flex items-center gap-1.5"><Headphones className="w-4 h-4 text-emerald-400" /> دعم مباشر عبر واتساب</span>
-          </div>
-        </div>
-      </section>
-
-      {/* شريط الأقسام العشرة */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 -mt-8 relative z-10 w-full">
-        <div className="bg-white p-3 rounded-3xl shadow-lg shadow-slate-200/60 border border-slate-100 flex items-center gap-2 overflow-x-auto">
-          {["الكل", ...EQUIPMENT_CATEGORIES].map((catName) => {
-            const Icon = CATEGORY_ICONS[catName] || Sparkles;
-            const active = selectedCategory === catName;
-            return (
-              <button
-                key={catName}
-                onClick={() => setSelectedCategory(catName)}
-                className={`flex items-center gap-2 px-4 py-3 rounded-2xl font-bold text-xs sm:text-sm whitespace-nowrap transition-all ${
+                        className={`flex items-center gap-2 px-4 py-3 rounded-2xl font-bold text-xs sm:text-sm whitespace-nowrap transition-all ${
                   active
                     ? "bg-emerald-600 text-white shadow-md shadow-emerald-600/25"
                     : "text-slate-600 hover:bg-slate-100"
@@ -241,3 +144,37 @@ export default function Home() {
                     <p className="text-sm text-slate-500 line-clamp-2 mt-1.5 leading-relaxed">{item.description || "معدة بحالة ممتازة وجاهزة للاستلام الفوري."}</p>
                   </div>
 
+                  <div className="pt-4 border-t border-slate-100 flex justify-between items-center">
+                    <div>
+                      <span className="text-xs text-slate-400 block">سعر الإيجار اليومي</span>
+                      <span className="text-2xl font-black text-slate-900">{item.daily_price}</span>
+                      <span className="text-xs font-bold text-slate-500"> جنيه / يوم</span>
+                    </div>
+                    <span className="bg-slate-100 group-hover:bg-emerald-600 text-slate-900 group-hover:text-white px-4 py-2.5 rounded-2xl text-sm font-bold flex items-center gap-1.5 transition-colors">
+                      <span>احجز الآن</span> <ArrowLeft className="w-4 h-4" />
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+      </main>
+
+      <footer className="bg-slate-950 text-slate-400 py-12 px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex items-center gap-3">
+            <span className="bg-emerald-600 text-white font-black text-xl px-3 py-1 rounded-xl">أجرني</span>
+            <span className="text-sm">منصة الاقتصاد التشاركي وتأجير المعدات في كل محافظات مصر.</span>
+          </div>
+          <div className="flex items-center gap-6 text-sm">
+            <Link href="/add" className="hover:text-white transition">اعرض معدتك</Link>
+            <span className="flex items-center gap-1.5 text-emerald-400 font-semibold">
+              <ShieldCheck className="w-4 h-4" /> جميع الحسابات موثقة بالبطاقة
+            </span>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
