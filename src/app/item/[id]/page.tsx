@@ -4,8 +4,8 @@ import { FormEvent, useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 import {
-  ArrowRight, MapPin, ShieldCheck, CheckCircle2, CreditCard,
-  Calendar, Sparkles, Upload, BadgeCheck, Copy, Check
+  ArrowRight, MapPin, CheckCircle2, CreditCard,
+  Calendar, Upload, BadgeCheck, Copy, Check
 } from "lucide-react";
 import Link from "next/link";
 
@@ -127,7 +127,6 @@ export default function ItemDetails() {
 
       <div className="max-w-6xl mx-auto px-4 pt-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* تفاصيل المعدة */}
           <div className="lg:col-span-7 bg-white rounded-3xl overflow-hidden border border-slate-200/70 shadow-sm">
             <div className="h-72 sm:h-96 bg-slate-100 relative">
               {item.image_url ? (
@@ -170,7 +169,6 @@ export default function ItemDetails() {
             </div>
           </div>
 
-          {/* نموذج الحجز والدفع */}
           <form onSubmit={handleBooking} className="lg:col-span-5 bg-white rounded-3xl border border-slate-200/70 shadow-lg shadow-slate-200/50 p-6 sm:p-8 space-y-5">
             <div className="border-b border-slate-100 pb-4">
               <h2 className="text-xl font-black text-slate-900">احجز المعدة الآن</h2>
@@ -244,17 +242,21 @@ export default function ItemDetails() {
               />
             </div>
 
-            <div className="border-2 border-dashed border-slate-200 bg-slate-50/70 rounded-2xl p-4 text-center">
-              <Upload className="w-6 h-6 text-emerald-600 mx-auto mb-1" />
-              <label className="block text-xs font-bold text-slate-800 mb-2">إرفاق صورة إيصال التحويل (سكرين شوت) *</label>
+            <label className="block border-2 border-dashed border-emerald-300 hover:border-emerald-500 bg-emerald-50/40 hover:bg-emerald-50/70 rounded-2xl p-5 text-center cursor-pointer transition">
+              <Upload className="w-8 h-8 text-emerald-600 mx-auto mb-1.5" />
+              <span className="block text-sm font-extrabold text-slate-800">
+                {receiptFile ? `✅ ${receiptFile.name}` : "اضغط هنا لإرفاق صورة إيصال التحويل *"}
+              </span>
+              <span className="block text-xs text-slate-500 mt-1">
+                {receiptFile ? "اضغط لتغيير الصورة" : "سكرين شوت لعملية التحويل من موبايلك"}
+              </span>
               <input
-                required
                 type="file"
                 accept="image/*"
                 onChange={(e) => setReceiptFile(e.target.files?.item(0) ?? null)}
-                className="text-xs text-slate-600 w-full"
+                className="hidden"
               />
-            </div>
+            </label>
 
             <button
               disabled={submitting}
