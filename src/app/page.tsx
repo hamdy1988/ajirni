@@ -64,7 +64,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-900">
-      {/* الهيدر العلوي الفاخر */}
       <header className="bg-white/90 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex justify-between items-center">
           <Link href="/" className="flex items-center gap-3">
@@ -77,19 +76,16 @@ export default function Home() {
             </div>
           </Link>
 
-          <div className="flex items-center gap-3">
-            <Link
-              href="/add"
-              className="bg-slate-900 hover:bg-emerald-600 text-white px-5 py-3 rounded-2xl font-bold text-sm flex items-center gap-2 transition-all duration-300 shadow-sm hover:shadow-lg hover:shadow-emerald-600/20"
-            >
-              <PlusCircle className="w-5 h-5" />
-              <span>اعرض معدتك واكسب</span>
-            </Link>
-          </div>
+          <Link
+            href="/add"
+            className="bg-slate-900 hover:bg-emerald-600 text-white px-5 py-3 rounded-2xl font-bold text-sm flex items-center gap-2 transition-all duration-300 shadow-sm hover:shadow-lg hover:shadow-emerald-600/20"
+          >
+            <PlusCircle className="w-5 h-5" />
+            <span>اعرض معدتك واكسب</span>
+          </Link>
         </div>
       </header>
 
-      {/* الواجهة الرئيسية (Hero Section) */}
       <section className="relative overflow-hidden bg-slate-950 text-white pt-16 pb-28 px-4">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-emerald-600/35 via-slate-950 to-slate-950" />
         <div className="relative max-w-5xl mx-auto text-center space-y-6">
@@ -109,7 +105,6 @@ export default function Home() {
             استأجر معدات البناء، أنظمة الصوت والأفراح، والكاميرات من جيرانك في شبين القناطر وكل المحافظات بأقل تكلفة وضمان كامل.
           </p>
 
-          {/* شريط البحث العائم */}
           <div className="bg-white p-3 rounded-3xl shadow-2xl shadow-black/40 text-slate-800 mt-10 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-2.5 border border-slate-100">
             <div className="md:col-span-5 relative flex items-center">
               <Search className="w-5 h-5 text-slate-400 absolute right-4" />
@@ -167,7 +162,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* شريط الثقة والمميزات */}
           <div className="pt-6 flex flex-wrap justify-center gap-6 text-xs sm:text-sm text-slate-300 font-medium">
             <span className="flex items-center gap-1.5"><ShieldCheck className="w-4 h-4 text-emerald-400" /> حسابات موثقة بالبطاقة الشخصية</span>
             <span className="flex items-center gap-1.5"><Zap className="w-4 h-4 text-emerald-400" /> حجز فوري واستلام يداً بيد</span>
@@ -175,8 +169,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      {/* شريط الأقسام التفاعلي */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 -mt-8 relative z-10 w-full">
+ <div className="max-w-7xl mx-auto px-4 sm:px-6 -mt-8 relative z-10 w-full">
         <div className="bg-white p-3 rounded-3xl shadow-lg shadow-slate-200/60 border border-slate-100 flex items-center gap-2 overflow-x-auto">
           {CATEGORIES.map((cat) => {
             const Icon = cat.icon;
@@ -199,7 +192,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* عرض المعدات */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-14 flex-grow w-full">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-8">
           <div>
@@ -289,7 +281,6 @@ export default function Home() {
         )}
       </main>
 
-      {/* قسم كيف تعمل المنصة */}
       <section className="bg-white border-t border-slate-200/70 py-16 px-4 sm:px-6 mt-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-12">
@@ -316,7 +307,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* الفوتر الاحترافي */}
       <footer className="bg-slate-950 text-slate-400 py-12 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-3">
