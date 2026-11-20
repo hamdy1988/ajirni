@@ -84,7 +84,8 @@ export default function AddEquipment() {
             <Sparkles className="w-4 h-4" /> <span>حوّل أدواتك المركونة إلى مصدر دخل شهري</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-black text-slate-900">اعرض معدتك للإيجار</h1>
-        </div>   <form onSubmit={handleSubmit} className="bg-white rounded-3xl shadow-sm border border-slate-200/70 p-6 sm:p-10 space-y-8">
+        </div>
+        <form onSubmit={handleSubmit} className="bg-white rounded-3xl shadow-sm border border-slate-200/70 p-6 sm:p-10 space-y-8">
           <div className="space-y-4">
             <h2 className="text-lg font-extrabold text-slate-900 border-b border-slate-100 pb-3">1. تفاصيل المعدة</h2>
             <div>
@@ -143,16 +144,27 @@ export default function AddEquipment() {
           <div className="space-y-4">
             <h2 className="text-lg font-extrabold text-slate-900 border-b border-slate-100 pb-3">3. الصور والتوثيق الأمني</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="border-2 border-dashed border-slate-200 bg-slate-50/70 rounded-2xl p-5 text-center">
-                <Camera className="w-8 h-8 text-emerald-600 mx-auto mb-2" />
-                <label className="block text-sm font-bold text-slate-800 mb-1">صورة واضحة للمعدة *</label>
-                <input required type="file" accept="image/*" onChange={(e) => setEquipmentImage(e.target.files?.item(0) ?? null)} className="text-xs w-full mt-2" />
-              </div>
-              <div className="border-2 border-dashed border-emerald-200 bg-emerald-50/40 rounded-2xl p-5 text-center">
-                <BadgeCheck className="w-8 h-8 text-emerald-700 mx-auto mb-2" />
-                <label className="block text-sm font-bold text-slate-900 mb-1">صورة البطاقة الشخصية *</label>
-                <input required type="file" accept="image/*" onChange={(e) => setIdCardImage(e.target.files?.item(0) ?? null)} className="text-xs w-full mt-2" />
-              </div>
+              <label className="block border-2 border-dashed border-slate-300 hover:border-emerald-500 bg-slate-50/70 hover:bg-emerald-50/30 rounded-2xl p-6 text-center cursor-pointer transition">
+                <Camera className="w-9 h-9 text-emerald-600 mx-auto mb-2" />
+                <span className="block text-sm font-extrabold text-slate-800">
+                  {equipmentImage ? `✅ ${equipmentImage.name}` : "اضغط لاختيار صورة المعدة *"}
+                </span>
+                <span className="block text-xs text-slate-400 mt-1">
+                  {equipmentImage ? "اضغط لتغيير الصورة" : "تظهر للعملاء في الصفحة الرئيسية"}
+                </span>
+                <input type="file" accept="image/*" onChange={(e) => setEquipmentImage(e.target.files?.item(0) ?? null)} className="hidden" />
+              </label>
+
+              <label className="block border-2 border-dashed border-emerald-300 hover:border-emerald-600 bg-emerald-50/40 hover:bg-emerald-50/70 rounded-2xl p-6 text-center cursor-pointer transition">
+                <BadgeCheck className="w-9 h-9 text-emerald-700 mx-auto mb-2" />
+                <span className="block text-sm font-extrabold text-slate-900">
+                  {idCardImage ? `✅ ${idCardImage.name}` : "اضغط لرفع صورة البطاقة *"}
+                </span>
+                <span className="block text-xs text-emerald-700/80 mt-1">
+                  {idCardImage ? "اضغط لتغيير الصورة" : "سرية تماماً للإدارة فقط لتوثيق حسابك"}
+                </span>
+                <input type="file" accept="image/*" onChange={(e) => setIdCardImage(e.target.files?.item(0) ?? null)} className="hidden" />
+              </label>
             </div>
           </div>
 
