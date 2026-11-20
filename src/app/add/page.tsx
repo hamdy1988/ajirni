@@ -10,11 +10,54 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
+const EGYPT_LOCATIONS: Record<string, string[]> = {
+  "القليوبية": ["شبين القناطر", "بنها", "الخانكة", "القناطر الخيرية", "طوخ", "قليوب", "شبرا الخيمة", "العبور", "كفر شكر", "قها"],
+  "القاهرة": ["مدينة نصر", "التجمع الخامس", "مصر الجديدة", "المعادي", "حلوان", "شبرا", "عين شمس", "المقطم", "الرحاب", "الشروق", "مدينتي", "المرج"],
+  "الجيزة": ["6 أكتوبر", "الشيخ زايد", "الهرم", "فيصل", "الدقي", "المهندسين", "إمبابة", "البدرشين", "الحوامدية", "أوسيم", "كرداسة"],
+  "الشرقية": ["الزقازيق", "العاشر من رمضان", "بلبيس", "منيا القمح", "فاقوس", "أبو حماد", "ههيا", "ديرب نجم"],
+  "الدقهلية": ["المنصورة", "طلخا", "ميت غمر", "السنبلاوين", "دكرنس", "بلقاس", "شربين"],
+  "الغربية": ["طنطا", "المحلة الكبرى", "كفر الزيات", "زفتى", "السنطة", "بسيون", "سمنود"],
+  "المنوفية": ["شبين الكوم", "السادات", "منوف", "أشمون", "الباجور", "قويسنا", "تلا"],
+  "الإسكندرية": ["سموحة", "سيدي جابر", "المنتزه", "العجمي", "برج العرب", "محرم بك", "العامرية"],
+  "البحيرة": ["دمنهور", "كفر الدوار", "إيتاي البارود", "كوم حمادة", "أبو المطامير", "رشيد", "وادي النطرون"],
+  "كفر الشيخ": ["كفر الشيخ", "دسوق", "فوه", "مطوبس", "بلطيم", "الحامول", "بيلا"],
+  "دمياط": ["دمياط", "دمياط الجديدة", "رأس البر", "فارسكور", "الزرقا", "كفر سعد"],
+  "بورسعيد": ["حي الشرق", "حي العرب", "حي الضواحي", "حي الزهور", "بورفؤاد"],
+  "الإسماعيلية": ["الإسماعيلية", "فايد", "القنطرة شرق", "القنطرة غرب", "التل الكبير"],
+  "السويس": ["حي السويس", "حي الأربعين", "حي عتاقة", "حي فيصل", "العين السخنة"],
+  "الفيوم": ["الفيوم", "سنورس", "إطسا", "طامية", "أبشواي"],
+  "بني سويف": ["بني سويف", "الواسطى", "ناصر", "ببا", "الفشن"],
+  "المنيا": ["المنيا", "ملوي", "سمالوط", "بني مزار", "مغاغة", "أبو قرقاص"],
+  "أسيوط": ["أسيوط", "ديروط", "منفلوط", "القوصية", "أبو تيج"],
+  "سوهاج": ["سوهاج", "جرجا", "طما", "طهطا", "أخميم"],
+  "قنا": ["قنا", "نجع حمادي", "دشنا", "قوص", "أبو تشت"],
+  "الأقصر": ["الأقصر", "إسنا", "أرمنت", "البياضية"],
+  "أسوان": ["أسوان", "كوم أمبو", "إدفو", "دراو"],
+  "البحر الأحمر": ["الغردقة", "رأس غارب", "سفاجا", "القصير", "مرسى علم"],
+  "مطروح": ["مرسى مطروح", "العلمين", "الحمام", "سيوة"],
+  "شمال سيناء": ["العريش", "الشيخ زويد", "بئر العبد"],
+  "جنوب سيناء": ["شرم الشيخ", "دهب", "نويبع", "الطور"],
+  "الوادي الجديد": ["الخارجة", "الداخلة", "الفرافرة"]
+};
+
+const CATEGORIES = [
+  "معدات بناء وصيانة",
+  "عدد يدوية وكهربائية",
+  "أفراح وصوتيات وإضاءة",
+  "كاميرات وتصوير ومونتاج",
+  "معدات زراعية وري",
+  "مولدات كهرباء وضواغط",
+  "رحلات وتخييم وشواء",
+  "أجهزة طبية ورعاية منزلية",
+  "أدوات تنظيف وصيانة منزلية",
+  "سيارات ومقطورات ونقل"
+];
+
 export default function AddEquipment() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("معدات بناء وصيانة");
+  const [category, setCategory] = useState(CATEGORIES[0]);
   const [description, setDescription] = useState("");
   const [dailyPrice, setDailyPrice] = useState("");
   const [governorate, setGovernorate] = useState("القليوبية");
@@ -23,7 +66,6 @@ export default function AddEquipment() {
   const [ownerPhone, setOwnerPhone] = useState("");
   const [equipmentImage, setEquipmentImage] = useState<File | null>(null);
   const [idCardImage, setIdCardImage] = useState<File | null>(null);
-
   async function uploadFile(file: File, folder: string) {
     const ext = file.name.split(".").pop();
     const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
@@ -67,6 +109,8 @@ export default function AddEquipment() {
     );
   }
 
+  const citiesList = EGYPT_LOCATIONS[governorate] || [];
+
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-slate-900 pb-16">
       <header className="bg-white border-b border-slate-200/80 sticky top-0 z-40">
@@ -85,21 +129,21 @@ export default function AddEquipment() {
           </div>
           <h1 className="text-3xl sm:text-4xl font-black text-slate-900">اعرض معدتك للإيجار</h1>
         </div>
+
         <form onSubmit={handleSubmit} className="bg-white rounded-3xl shadow-sm border border-slate-200/70 p-6 sm:p-10 space-y-8">
           <div className="space-y-4">
             <h2 className="text-lg font-extrabold text-slate-900 border-b border-slate-100 pb-3">1. تفاصيل المعدة</h2>
             <div>
               <label className="block text-sm font-bold text-slate-700 mb-1.5">اسم المعدة *</label>
-              <input required type="text" placeholder="مثال: هيلتي تكسير بوش، سماعة دي جي..." className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-2xl" value={title} onChange={(e) => setTitle(e.target.value)} />
+              <input required type="text" placeholder="مثال: هيلتي تكسير بوش، سماعة دي جي، مولد كهرباء..." className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-2xl" value={title} onChange={(e) => setTitle(e.target.value)} />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-bold text-slate-700 mb-1.5">القسم *</label>
                 <select className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-2xl" value={category} onChange={(e) => setCategory(e.target.value)}>
-                  <option value="معدات بناء وصيانة">معدات بناء وصيانة</option>
-                  <option value="أفراح ومناسبات">أفراح ومناسبات</option>
-                  <option value="معدات زراعية">معدات زراعية</option>
-                  <option value="تصوير وإلكترونيات">تصوير وإلكترونيات</option>
+                  {CATEGORIES.map((cat) => (
+                    <option key={cat} value={cat}>{cat}</option>
+                  ))}
                 </select>
               </div>
               <div>
@@ -118,15 +162,27 @@ export default function AddEquipment() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-bold text-slate-700 mb-1.5 flex items-center gap-1"><MapPin className="w-4 h-4 text-emerald-600" /> المحافظة *</label>
-                <select className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-2xl" value={governorate} onChange={(e) => setGovernorate(e.target.value)}>
-                  <option value="القليوبية">القليوبية</option>
-                  <option value="القاهرة">القاهرة</option>
-                  <option value="الجيزة">الجيزة</option>
+                <select
+                  className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-2xl"
+                  value={governorate}
+                  onChange={(e) => {
+                    const newGov = e.target.value;
+                    setGovernorate(newGov);
+                    setCity(EGYPT_LOCATIONS[newGov]?.[0] || "");
+                  }}
+                >
+                  {Object.keys(EGYPT_LOCATIONS).map((gov) => (
+                    <option key={gov} value={gov}>{gov}</option>
+                  ))}
                 </select>
               </div>
               <div>
                 <label className="block text-sm font-bold text-slate-700 mb-1.5">المدينة / المركز *</label>
-                <input required type="text" placeholder="مثال: شبين القناطر" className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-2xl" value={city} onChange={(e) => setCity(e.target.value)} />
+                <select className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-2xl" value={city} onChange={(e) => setCity(e.target.value)}>
+                  {citiesList.map((c) => (
+                    <option key={c} value={c}>{c}</option>
+                  ))}
+                </select>
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -173,6 +229,3 @@ export default function AddEquipment() {
           </button>
         </form>
       </div>
-    </div>
-  );
-}
