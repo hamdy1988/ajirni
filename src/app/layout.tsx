@@ -12,15 +12,13 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const phone = ["2010", "6368", "6679"].join("");
-
   return (
     <html lang="ar" dir="rtl">
       <body className="antialiased bg-[#F8FAFC] text-slate-900">
         {children}
 
         <a
-          href={`https://wa.me{201063686679}`}
+          href="https://wa.me"
           target="_blank"
           rel="noopener noreferrer"
           className="fixed bottom-6 left-6 z-50 bg-[#25D366] hover:bg-[#1ebe5d] text-white px-4 py-3.5 rounded-full shadow-xl flex items-center gap-2 font-bold text-sm transition-transform hover:scale-105"
