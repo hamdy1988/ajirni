@@ -18,7 +18,9 @@ export default function RootLayout({
         {children}
 
         <a
-          href="https://wa.me201063686679"
+          href="https://wa.me/201063686679"
+          target="_blank"
+          rel="noopener noreferrer"
           className="fixed bottom-6 left-6 z-50 bg-[#25D366] hover:bg-[#1ebe5d] text-white px-4 py-3.5 rounded-full shadow-xl flex items-center gap-2 font-bold text-sm"
         >
           <MessageCircle className="w-6 h-6" />
