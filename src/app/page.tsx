@@ -21,35 +21,49 @@ interface Equipment {
   image_url: string;
 }
 
-const EGYPT_LOCATIONS: Record<string, string[]> = {
-  "القليوبية": ["شبين القناطر", "بنها", "الخانكة", "القناطر الخيرية", "طوخ", "قليوب", "شبرا الخيمة", "العبور", "كفر شكر", "قها"],
-  "القاهرة": ["مدينة نصر", "التجمع الخامس", "مصر الجديدة", "المعادي", "حلوان", "شبرا", "عين شمس", "المقطم", "الرحاب", "الشروق", "مدينتي", "المرج"],
-  "الجيزة": ["6 أكتوبر", "الشيخ زايد", "الهرم", "فيصل", "الدقي", "المهندسين", "إمبابة", "البدرشين", "الحوامدية", "أوسيم", "كرداسة"],
-  "الشرقية": ["الزقازيق", "العاشر من رمضان", "بلبيس", "منيا القمح", "فاقوس", "أبو حماد", "ههيا", "ديرب نجم"],
-  "الدقهلية": ["المنصورة", "طلخا", "ميت غمر", "السنبلاوين", "دكرنس", "بلقاس", "شربين"],
-  "الغربية": ["طنطا", "المحلة الكبرى", "كفر الزيات", "زفتى", "السنطة", "بسيون", "سمنود"],
-  "المنوفية": ["شبين الكوم", "السادات", "منوف", "أشمون", "الباجور", "قويسنا", "تلا"],
-  "الإسكندرية": ["سموحة", "سيدي جابر", "المنتزه", "العجمي", "برج العرب", "محرم بك", "العامرية"],
-  "البحيرة": ["دمنهور", "كفر الدوار", "إيتاي البارود", "كوم حمادة", "أبو المطامير", "رشيد", "وادي النطرون"],
-  "كفر الشيخ": ["كفر الشيخ", "دسوق", "فوه", "مطوبس", "بلطيم", "الحامول", "بيلا"],
-  "دمياط": ["دمياط", "دمياط الجديدة", "رأس البر", "فارسكور", "الزرقا", "كفر سعد"],
-  "بورسعيد": ["حي الشرق", "حي العرب", "حي الضواحي", "حي الزهور", "بورفؤاد"],
-  "الإسماعيلية": ["الإسماعيلية", "فايد", "القنطرة شرق", "القنطرة غرب", "التل الكبير"],
-  "السويس": ["حي السويس", "حي الأربعين", "حي عتاقة", "حي فيصل", "العين السخنة"],
-  "الفيوم": ["الفيوم", "سنورس", "إطسا", "طامية", "أبشواي"],
-  "بني سويف": ["بني سويف", "الواسطى", "ناصر", "ببا", "الفشن"],
-  "المنيا": ["المنيا", "ملوي", "سمالوط", "بني مزار", "مغاغة", "أبو قرقاص"],
-  "أسيوط": ["أسيوط", "ديروط", "منفلوط", "القوصية", "أبو تيج"],
-  "سوهاج": ["سوهاج", "جرجا", "طما", "طهطا", "أخميم"],
-  "قنا": ["قنا", "نجع حمادي", "دشنا", "قوص", "أبو تشت"],
-  "الأقصر": ["الأقصر", "إسنا", "أرمنت", "البياضية"],
-  "أسوان": ["أسوان", "كوم أمبو", "إدفو", "دراو"],
-  "البحر الأحمر": ["الغردقة", "رأس غارب", "سفاجا", "القصير", "مرسى علم"],
-  "مطروح": ["مرسى مطروح", "العلمين", "الحمام", "سيوة"],
-  "شمال سيناء": ["العريش", "الشيخ زويد", "بئر العبد"],
-  "جنوب سيناء": ["شرم الشيخ", "دهب", "نويبع", "الطور"],
-  "الوادي الجديد": ["الخارجة", "الداخلة", "الفرافرة"]
-};
+const SHIBIN_VILLAGES = [
+  "مدينة شبين القناطر",
+  "كفر شبين",
+  "طحانوب",
+  "نوى",
+  "الأحراز",
+  "الجعافرة",
+  "منية شبين",
+  "تل بني تميم",
+  "القشيش",
+  "الزهويين",
+  "كفر طحا",
+  "كفر الشوبك",
+  "طحوريا",
+  "كفر الدير",
+  "كفر سندوة",
+  "كفر الصهبي",
+  "كفر سليمان الور",
+  "كفر حمزة",
+  "كفر سعد بحيري",
+  "كفر الشيخة سالمة",
+  "كفر الترامسة",
+  "كفر الحصافة",
+  "الحصافة",
+  "الحزانية",
+  "السلمانية",
+  "العطارة",
+  "الغريري",
+  "المريج",
+  "القلزم",
+  "عرب جهينة",
+  "عرب الصوالحة",
+  "عرب العليقات",
+  "عرب الشعارة",
+  "عرب الرمل",
+  "كوم السمن",
+  "منشأة الكرام",
+  "نزلة عرب جهينة",
+  "عزبة الوكيل",
+  "عزبة الجندي",
+  "عزبة الإصلاح",
+  "قرية أو عزبة أخرى بالمركز"
+];
 
 const CATEGORIES = [
   "الكل",
@@ -69,8 +83,7 @@ export default function Home() {
   const [equipments, setEquipments] = useState<Equipment[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedGov, setSelectedGov] = useState("الكل");
-  const [selectedCity, setSelectedCity] = useState("الكل");
+  const [selectedVillage, setSelectedVillage] = useState("الكل");
   const [selectedCategory, setSelectedCategory] = useState("الكل");
 
   useEffect(() => {
@@ -89,13 +102,10 @@ export default function Home() {
 
   const filtered = equipments.filter((item) => {
     const matchText = item.title.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchGov = selectedGov === "الكل" || item.governorate === selectedGov;
-    const matchCity = selectedCity === "الكل" || item.city === selectedCity;
+    const matchVillage = selectedVillage === "الكل" || item.city === selectedVillage;
     const matchCat = selectedCategory === "الكل" || item.category === selectedCategory;
-    return matchText && matchGov && matchCity && matchCat;
+    return matchText && matchVillage && matchCat;
   });
-
-  const citiesList = selectedGov !== "الكل" ? (EGYPT_LOCATIONS[selectedGov] || []) : [];
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-900">
       <header className="bg-white/90 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-50">
@@ -105,8 +115,8 @@ export default function Home() {
               أجرني
             </div>
             <div className="hidden sm:block">
-              <p className="font-extrabold text-slate-900 leading-none">منصة أجرني</p>
-              <p className="text-xs text-slate-500 mt-1">استأجر أي معدة في كل محافظات مصر</p>
+              <p className="font-extrabold text-slate-900 leading-none">أجرني • شبين القناطر</p>
+              <p className="text-xs text-slate-500 mt-1">تأجير المعدات في المدينة وجميع القرى والعزب</p>
             </div>
           </Link>
 
@@ -121,7 +131,7 @@ export default function Home() {
         <div className="relative max-w-5xl mx-auto text-center space-y-6">
           <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold">
             <BadgeCheck className="w-4 h-4" />
-            <span>أكبر منصة لتأجير المعدات والأدوات في 27 محافظة</span>
+            <span>المنصة الأولى لأهالي مركز شبين القناطر وقراها وعزبها</span>
           </div>
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black leading-tight">
@@ -129,43 +139,30 @@ export default function Home() {
           </h1>
 
           <p className="text-slate-300 text-base sm:text-xl max-w-2xl mx-auto">
-            استأجر معدات البناء، أنظمة الصوت والأفراح، الكاميرات، والمولدات من جيرانك في أي محافظة بأقل تكلفة وضمان كامل.
+            استأجر هيلتي، سماعات أفراح، سلالم، مولدات، ومعدات زراعية من جيرانك في شبين القناطر وكل القرى المجاورة بأقل سعر.
           </p>
 
           <div className="bg-white p-3 rounded-3xl shadow-2xl text-slate-800 mt-10 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-2.5">
-            <div className="md:col-span-5 relative flex items-center">
+            <div className="md:col-span-7 relative flex items-center">
               <Search className="w-5 h-5 text-slate-400 absolute right-4" />
               <input
                 type="text"
-                placeholder="ابحث عن دريل، هيلتي، سماعة، مولد..."
+                placeholder="بتدور على إيه؟ (هيلتي، سماعة، سلم، مولد...)"
                 className="w-full pr-12 pl-4 py-3.5 bg-slate-50 rounded-2xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
 
-            <div className="md:col-span-3">
+            <div className="md:col-span-5">
               <select
-                className="w-full px-4 py-3.5 bg-slate-50 rounded-2xl text-sm font-bold text-slate-700"
-                value={selectedGov}
-                onChange={(e) => { setSelectedGov(e.target.value); setSelectedCity("الكل"); }}
+                className="w-full px-4 py-3.5 bg-slate-50 rounded-2xl text-sm font-bold text-slate-700 cursor-pointer"
+                value={selectedVillage}
+                onChange={(e) => setSelectedVillage(e.target.value)}
               >
-                <option value="الكل">📍 كل المحافظات (27)</option>
-                {Object.keys(EGYPT_LOCATIONS).map((gov) => (
-                  <option key={gov} value={gov}>{gov}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className="md:col-span-4">
-              <select
-                className="w-full px-4 py-3.5 bg-slate-50 rounded-2xl text-sm font-bold text-slate-700"
-                value={selectedCity}
-                onChange={(e) => setSelectedCity(e.target.value)}
-              >
-                <option value="الكل">🏘️ كل المدن والمراكز</option>
-                {citiesList.map((city) => (
-                  <option key={city} value={city}>{city}</option>
+                <option value="الكل">📍 كل شبين القناطر والقرى والعزب</option>
+                {SHIBIN_VILLAGES.map((village) => (
+                  <option key={village} value={village}>{village}</option>
                 ))}
               </select>
             </div>
@@ -193,7 +190,10 @@ export default function Home() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-14 flex-grow w-full">
         <div className="flex justify-between items-center mb-8">
-          <h2 className="text-2xl sm:text-3xl font-black text-slate-900">أحدث المعدات المتاحة</h2>
+          <div>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900">المعدات المتاحة في شبين القناطر</h2>
+            <p className="text-slate-500 text-xs sm:text-sm mt-1">القليوبية • مركز شبين القناطر وجميع القرى والعزب</p>
+          </div>
           <span className="bg-emerald-50 text-emerald-700 font-extrabold px-4 py-1.5 rounded-full text-sm">
             {filtered.length} معدة متاحة
           </span>
@@ -203,10 +203,10 @@ export default function Home() {
           <div className="text-center py-20 text-slate-500 font-bold">جاري تحميل المعدات...</div>
         ) : filtered.length === 0 ? (
           <div className="bg-white rounded-3xl p-14 text-center border border-slate-200 max-w-xl mx-auto space-y-4">
-            <h3 className="text-xl font-black text-slate-900">لا توجد معدات مطابقة لبحثك حالياً</h3>
-            <p className="text-slate-500 text-sm">جرّب اختيار "كل المحافظات" أو أضف أول معدة الآن!</p>
+            <h3 className="text-xl font-black text-slate-900">لا توجد معدات مطابقة في هذه القرية حالياً</h3>
+            <p className="text-slate-500 text-sm">اختر "كل شبين القناطر والقرى" أو كن أول من يعرض معدته في قريتك!</p>
             <Link href="/add" className="inline-flex items-center gap-2 bg-emerald-600 text-white px-6 py-3 rounded-2xl font-bold">
-              <PlusCircle className="w-5 h-5" /> <span>أضف معدة الآن</span>
+              <PlusCircle className="w-5 h-5" /> <span>أضف أول معدة الآن</span>
             </Link>
           </div>
         ) : (
@@ -227,7 +227,7 @@ export default function Home() {
                 <div className="p-6 flex-grow flex flex-col justify-between space-y-4">
                   <div>
                     <div className="flex items-center text-xs font-bold text-emerald-600 gap-1 mb-1.5">
-                      <MapPin className="w-3.5 h-3.5" /> <span>{item.governorate} • {item.city}</span>
+                      <MapPin className="w-3.5 h-3.5" /> <span>شبين القناطر • {item.city}</span>
                     </div>
                     <h3 className="text-xl font-extrabold text-slate-900">{item.title}</h3>
                     <p className="text-sm text-slate-500 line-clamp-2 mt-1">{item.description || "جاهزة للاستلام الفوري."}</p>
@@ -253,7 +253,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-3">
             <span className="bg-emerald-600 text-white font-black text-xl px-3 py-1 rounded-xl">أجرني</span>
-            <span className="text-sm">منصة الاقتصاد التشاركي وتأجير المعدات في كل محافظات مصر.</span>
+            <span className="text-sm">منصة تأجير المعدات والأدوات لمركز شبين القناطر وجميع قراه وعزبه.</span>
           </div>
           <div className="flex items-center gap-6 text-sm">
             <Link href="/add" className="hover:text-white transition">اعرض معدتك</Link>
