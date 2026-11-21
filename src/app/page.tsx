@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
-import { Search, PlusCircle, MapPin, ShieldCheck, ArrowLeft, BadgeCheck } from "lucide-react";
+import { Search, PlusCircle, MapPin, ShieldCheck, ArrowLeft, BadgeCheck, LayoutGrid } from "lucide-react";
 import Link from "next/link";
 
 const supabase = createClient(
@@ -32,21 +32,63 @@ const SHIBIN_VILLAGES = [
   "قرية أو عزبة أخرى بالمركز"
 ];
 
-const CATEGORIES = [
-  "الكل",
-  "فساتين زفاف وسواريه",
-  "العدد والأدوات ومعدات البناء",
-  "الحفلات والأفراح والصوتيات",
-  "التصوير والكاميرات والإضاءة",
-  "الإلكترونيات والألعاب والبروجكتر",
-  "الرحلات والتخييم والشواء",
-  "السيارات والدراجات والنقل",
-  "المستلزمات الطبية والرعاية",
-  "المنزل والحديقة والتنظيف",
-  "المعدات الزراعية والمولدات",
-  "مستلزمات الأطفال والألعاب"
+const VISUAL_CATEGORIES = [
+  {
+    name: "فساتين زفاف وسواريه",
+    short: "فساتين زفاف",
+    img: "https://unsplash.com"
+  },
+  {
+    name: "العدد والأدوات ومعدات البناء",
+    short: "معدات بناء",
+    img: "https://unsplash.com"
+  },
+  {
+    name: "الحفلات والأفراح والصوتيات",
+    short: "حفلات وصوتيات",
+    img: "https://unsplash.com"
+  },
+  {
+    name: "التصوير والكاميرات والإضاءة",
+    short: "كاميرات وتصوير",
+    img: "https://unsplash.com"
+  },
+  {
+    name: "الإلكترونيات والألعاب والبروجكتر",
+    short: "إلكترونيات وألعاب",
+    img: "https://unsplash.com"
+  },
+  {
+    name: "الرحلات والتخييم والشواء",
+    short: "رحلات وتخييم",
+    img: "https://unsplash.com"
+  },
+  {
+    name: "السيارات والدراجات والنقل",
+    short: "سيارات ونقل",
+    img: "https://unsplash.com"
+  },
+  {
+    name: "المستلزمات الطبية والرعاية",
+    short: "مستلزمات طبية",
+    img: "https://unsplash.com"
+  },
+  {
+    name: "المنزل والحديقة والتنظيف",
+    short: "أدوات منزلية",
+    img: "https://unsplash.com"
+  },
+  {
+    name: "المعدات الزراعية والمولدات",
+    short: "زراعة ومولدات",
+    img: "https://unsplash.com"
+  },
+  {
+    name: "مستلزمات الأطفال والألعاب",
+    short: "مستلزمات أطفال",
+    img: "https://unsplash.com"
+  }
 ];
-
 export default function Home() {
   const [equipments, setEquipments] = useState<Equipment[]>([]);
   const [loading, setLoading] = useState(true);
@@ -74,6 +116,7 @@ export default function Home() {
     const matchCat = selectedCategory === "الكل" || item.category === selectedCategory;
     return matchText && matchVillage && matchCat;
   });
+
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-900">
       <header className="bg-white/90 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-50">
@@ -95,7 +138,7 @@ export default function Home() {
         </div>
       </header>
 
-      <section className="relative overflow-hidden bg-slate-950 text-white pt-16 pb-28 px-4">
+      <section className="relative overflow-hidden bg-slate-950 text-white pt-14 pb-24 px-4">
         <div className="relative max-w-5xl mx-auto text-center space-y-6">
           <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold">
             <BadgeCheck className="w-4 h-4" />
@@ -110,7 +153,7 @@ export default function Home() {
             محتاج فستان زفاف، هيلتي، سماعة أفراح، كاميرا، بلايستيشن، أو مولد كهرباء؟ استأجرها من جيرانك في شبين القناطر بأقل سعر وأمان تام.
           </p>
 
-          <div className="bg-white p-3 rounded-3xl shadow-2xl text-slate-800 mt-10 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-2.5">
+          <div className="bg-white p-3 rounded-3xl shadow-2xl text-slate-800 mt-8 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-2.5">
             <div className="md:col-span-7 relative flex items-center">
               <Search className="w-5 h-5 text-slate-400 absolute right-4" />
               <input
@@ -138,27 +181,71 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 -mt-8 relative z-10 w-full">
-        <div className="bg-white p-3 rounded-3xl shadow-lg border border-slate-100 flex items-center gap-2 overflow-x-auto">
-          {CATEGORIES.map((catName) => (
+      {/* قسم التصنيفات المصورة مثل منصة استأجر */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-12 w-full">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h2 className="text-2xl font-black text-slate-900">تصفح حسب القسم</h2>
+            <p className="text-xs sm:text-sm text-slate-500 mt-0.5">اختر القسم لعرض المنتجات المتاحة للإيجار</p>
+          </div>
+          {selectedCategory !== "الكل" && (
             <button
-              key={catName}
-              onClick={() => setSelectedCategory(catName)}
-              className={`px-4 py-3 rounded-2xl font-bold text-xs sm:text-sm whitespace-nowrap transition ${
-                selectedCategory === catName
-                  ? "bg-emerald-600 text-white shadow"
-                  : "text-slate-600 hover:bg-slate-100"
-              }`}
+              onClick={() => setSelectedCategory("الكل")}
+              className="text-xs font-bold bg-slate-200/80 hover:bg-slate-300 text-slate-800 px-3.5 py-2 rounded-xl transition"
             >
-              {catName}
+              عرض الكل ×
             </button>
-          ))}
+          )}
         </div>
-      </div>
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-14 flex-grow w-full">
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          <button
+            onClick={() => setSelectedCategory("الكل")}
+            className={`group rounded-2xl p-3 border text-center transition-all flex flex-col items-center justify-center gap-2.5 bg-white ${
+              selectedCategory === "الكل"
+                ? "border-emerald-600 ring-2 ring-emerald-500/30 shadow-md"
+                : "border-slate-200/80 hover:border-emerald-400 shadow-sm"
+            }`}
+          >
+            <div className="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-105 transition">
+              <LayoutGrid className="w-8 h-8" />
+            </div>
+            <span className="font-extrabold text-xs sm:text-sm text-slate-800">جميع الأقسام</span>
+          </button>
+
+          {VISUAL_CATEGORIES.map((cat) => {
+            const active = selectedCategory === cat.name;
+            return (
+              <button
+                key={cat.name}
+                onClick={() => setSelectedCategory(cat.name)}
+                className={`group rounded-2xl p-3 border text-center transition-all flex flex-col items-center gap-2.5 bg-white ${
+                  active
+                    ? "border-emerald-600 ring-2 ring-emerald-500/30 shadow-md"
+                    : "border-slate-200/80 hover:border-emerald-400 shadow-sm"
+                }`}
+              >
+                <div className="w-full h-24 rounded-xl overflow-hidden bg-slate-100">
+                  <img
+                    src={cat.img}
+                    alt={cat.short}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  />
+                </div>
+                <span className={`font-extrabold text-xs sm:text-sm line-clamp-1 ${active ? "text-emerald-700" : "text-slate-800"}`}>
+                  {cat.short}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </section>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-12 flex-grow w-full">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h2 className="text-2xl sm:text-3xl font-black text-slate-900">المعروض للإيجار في شبين القناطر</h2>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900">
+              {selectedCategory === "الكل" ? "المعروض للإيجار في شبين القناطر" : selectedCategory}
+            </h2>
             <p className="text-slate-500 text-xs sm:text-sm mt-1">منتجات ومعدات موثقة لأهالي شبين القناطر</p>
           </div>
           <span className="bg-emerald-50 text-emerald-700 font-extrabold px-4 py-1.5 rounded-full text-sm">
@@ -171,7 +258,7 @@ export default function Home() {
         ) : filtered.length === 0 ? (
           <div className="bg-white rounded-3xl p-14 text-center border border-slate-200 max-w-xl mx-auto space-y-4">
             <h3 className="text-xl font-black text-slate-900">لا توجد منتجات في هذا القسم حالياً</h3>
-            <p className="text-slate-500 text-sm">اختر "الكل" أو كن أول من يعرض منتجه في هذا القسم!</p>
+            <p className="text-slate-500 text-sm">اختر "جميع الأقسام" أو كن أول من يعرض منتجه في هذا القسم!</p>
             <Link href="/add" className="inline-flex items-center gap-2 bg-emerald-600 text-white px-6 py-3 rounded-2xl font-bold">
               <PlusCircle className="w-5 h-5" /> <span>أضف أول منتج الآن</span>
             </Link>
