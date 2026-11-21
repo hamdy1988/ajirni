@@ -10,46 +10,21 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-const EGYPT_LOCATIONS: Record<string, string[]> = {
-  "القليوبية": ["شبين القناطر", "بنها", "الخانكة", "القناطر الخيرية", "طوخ", "قليوب", "شبرا الخيمة", "العبور", "كفر شكر", "قها"],
-  "القاهرة": ["مدينة نصر", "التجمع الخامس", "مصر الجديدة", "المعادي", "حلوان", "شبرا", "عين شمس", "المقطم", "الرحاب", "الشروق", "مدينتي", "المرج"],
-  "الجيزة": ["6 أكتوبر", "الشيخ زايد", "الهرم", "فيصل", "الدقي", "المهندسين", "إمبابة", "البدرشين", "الحوامدية", "أوسيم", "كرداسة"],
-  "الشرقية": ["الزقازيق", "العاشر من رمضان", "بلبيس", "منيا القمح", "فاقوس", "أبو حماد", "ههيا", "ديرب نجم"],
-  "الدقهلية": ["المنصورة", "طلخا", "ميت غمر", "السنبلاوين", "دكرنس", "بلقاس", "شربين"],
-  "الغربية": ["طنطا", "المحلة الكبرى", "كفر الزيات", "زفتى", "السنطة", "بسيون", "سمنود"],
-  "المنوفية": ["شبين الكوم", "السادات", "منوف", "أشمون", "الباجور", "قويسنا", "تلا"],
-  "الإسكندرية": ["سموحة", "سيدي جابر", "المنتزه", "العجمي", "برج العرب", "محرم بك", "العامرية"],
-  "البحيرة": ["دمنهور", "كفر الدوار", "إيتاي البارود", "كوم حمادة", "أبو المطامير", "رشيد", "وادي النطرون"],
-  "كفر الشيخ": ["كفر الشيخ", "دسوق", "فوه", "مطوبس", "بلطيم", "الحامول", "بيلا"],
-  "دمياط": ["دمياط", "دمياط الجديدة", "رأس البر", "فارسكور", "الزرقا", "كفر سعد"],
-  "بورسعيد": ["حي الشرق", "حي العرب", "حي الضواحي", "حي الزهور", "بورفؤاد"],
-  "الإسماعيلية": ["الإسماعيلية", "فايد", "القنطرة شرق", "القنطرة غرب", "التل الكبير"],
-  "السويس": ["حي السويس", "حي الأربعين", "حي عتاقة", "حي فيصل", "العين السخنة"],
-  "الفيوم": ["الفيوم", "سنورس", "إطسا", "طامية", "أبشواي"],
-  "بني سويف": ["بني سويف", "الواسطى", "ناصر", "ببا", "الفشن"],
-  "المنيا": ["المنيا", "ملوي", "سمالوط", "بني مزار", "مغاغة", "أبو قرقاص"],
-  "أسيوط": ["أسيوط", "ديروط", "منفلوط", "القوصية", "أبو تيج"],
-  "سوهاج": ["سوهاج", "جرجا", "طما", "طهطا", "أخميم"],
-  "قنا": ["قنا", "نجع حمادي", "دشنا", "قوص", "أبو تشت"],
-  "الأقصر": ["الأقصر", "إسنا", "أرمنت", "البياضية"],
-  "أسوان": ["أسوان", "كوم أمبو", "إدفو", "دراو"],
-  "البحر الأحمر": ["الغردقة", "رأس غارب", "سفاجا", "القصير", "مرسى علم"],
-  "مطروح": ["مرسى مطروح", "العلمين", "الحمام", "سيوة"],
-  "شمال سيناء": ["العريش", "الشيخ زويد", "بئر العبد"],
-  "جنوب سيناء": ["شرم الشيخ", "دهب", "نويبع", "الطور"],
-  "الوادي الجديد": ["الخارجة", "الداخلة", "الفرافرة"]
-};
+const SHIBIN_VILLAGES = [
+  "مدينة شبين القناطر", "كفر شبين", "طحانوب", "نوى", "الأحراز", "الجعافرة",
+  "منية شبين", "تل بني تميم", "القشيش", "الزهويين", "كفر طحا", "كفر الشوبك",
+  "طحوريا", "كفر الدير", "كفر سندوة", "كفر الصهبي", "كفر سليمان الور", "كفر حمزة",
+  "كفر سعد بحيري", "كفر الشيخة سالمة", "كفر الترامسة", "كفر الحصافة", "الحصافة",
+  "الحزانية", "السلمانية", "العطارة", "الغريري", "المريج", "القلزم", "عرب جهينة",
+  "عرب الصوالحة", "عرب العليقات", "عرب الشعارة", "عرب الرمل", "كوم السمن",
+  "منشأة الكرام", "نزلة عرب جهينة", "عزبة الوكيل", "عزبة الجندي", "عزبة الإصلاح",
+  "قرية أو عزبة أخرى بالمركز"
+];
 
 const CATEGORIES = [
-  "معدات بناء وصيانة",
-  "عدد يدوية وكهربائية",
-  "أفراح وصوتيات وإضاءة",
-  "كاميرات وتصوير ومونتاج",
-  "معدات زراعية وري",
-  "مولدات كهرباء وضواغط",
-  "رحلات وتخييم وشواء",
-  "أجهزة طبية ورعاية منزلية",
-  "أدوات تنظيف وصيانة منزلية",
+  "معدات بناء وصيانة", "عدد يدوية وكهربائية", "أفراح وصوتيات وإضاءة",
+  "كاميرات وتصوير ومونتاج", "معدات زراعية وري", "مولدات كهرباء وضواغط",
+  "رحلات وتخييم وشواء", "أجهزة طبية ورعاية منزلية", "أدوات تنظيف وصيانة منزلية",
   "سيارات ومقطورات ونقل"
 ];
 
@@ -60,8 +35,7 @@ export default function AddEquipment() {
   const [category, setCategory] = useState("معدات بناء وصيانة");
   const [description, setDescription] = useState("");
   const [dailyPrice, setDailyPrice] = useState("");
-  const [governorate, setGovernorate] = useState("القليوبية");
-  const [city, setCity] = useState("شبين القناطر");
+  const [village, setVillage] = useState("مدينة شبين القناطر");
   const [ownerName, setOwnerName] = useState("");
   const [ownerPhone, setOwnerPhone] = useState("");
   const [equipmentImage, setEquipmentImage] = useState<File | null>(null);
@@ -84,7 +58,8 @@ export default function AddEquipment() {
       const idCardUrl = await uploadFile(idCardImage, "id_cards");
       const { error } = await supabase.from("equipment").insert([{
         title, category, description, daily_price: Number(dailyPrice),
-        governorate, city, owner_name: ownerName, owner_phone: ownerPhone,
+        governorate: "القليوبية - شبين القناطر", city: village,
+        owner_name: ownerName, owner_phone: ownerPhone,
         image_url: imageUrl, id_card_url: idCardUrl, status: "pending",
       }]);
       if (error) throw error;
@@ -100,14 +75,12 @@ export default function AddEquipment() {
         <div className="bg-white max-w-md w-full p-8 rounded-3xl shadow-xl border border-slate-100 text-center space-y-5">
           <CheckCircle2 className="w-16 h-16 text-emerald-600 mx-auto" />
           <h2 className="text-2xl font-black text-slate-900">تم استلام معدتك بنجاح!</h2>
-          <p className="text-slate-500 text-sm">شكراً لك يا <strong>{ownerName}</strong>. سنراجع بياناتك لتفعيل الإعلان قريباً.</p>
+          <p className="text-slate-500 text-sm">شكراً لك يا <strong>{ownerName}</strong>. سنراجع بياناتك لتفعيل الإعلان في شبين القناطر قريباً.</p>
           <Link href="/" className="block w-full bg-slate-900 hover:bg-emerald-600 text-white py-3.5 rounded-2xl font-bold">العودة للرئيسية</Link>
         </div>
       </div>
     );
   }
-
-  const citiesList = EGYPT_LOCATIONS[governorate] || [];
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-slate-900 pb-16">
@@ -123,7 +96,7 @@ export default function AddEquipment() {
       <div className="max-w-3xl mx-auto px-4 pt-10">
         <div className="text-center space-y-2 mb-8">
           <div className="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 px-4 py-1.5 rounded-full text-xs font-bold">
-            <Sparkles className="w-4 h-4" /> <span>حوّل أدواتك المركونة إلى مصدر دخل شهري</span>
+            <Sparkles className="w-4 h-4" /> <span>مركز شبين القناطر وجميع القرى والعزب</span>
           </div>
           <h1 className="text-3xl font-black text-slate-900">اعرض معدتك للإيجار</h1>
         </div>
@@ -154,32 +127,13 @@ export default function AddEquipment() {
             <textarea rows={2} placeholder="حالة المعدة والملحقات..." className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-2xl" value={description} onChange={(e) => setDescription(e.target.value)} />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-bold text-slate-700 mb-1.5 flex items-center gap-1"><MapPin className="w-4 h-4 text-emerald-600" /> المحافظة *</label>
-              <select
-                className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-2xl"
-                value={governorate}
-                onChange={(e) => {
-                  const newGov = e.target.value;
-                  setGovernorate(newGov);
-                  const nextCities = EGYPT_LOCATIONS[newGov] || [];
-                  setCity(nextCities.at(0) || "");
-                }}
-              >
-                {Object.keys(EGYPT_LOCATIONS).map((gov) => (
-                  <option key={gov} value={gov}>{gov}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-bold text-slate-700 mb-1.5">المدينة / المركز *</label>
-              <select className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-2xl" value={city} onChange={(e) => setCity(e.target.value)}>
-                {citiesList.map((c) => (
-                  <option key={c} value={c}>{c}</option>
-                ))}
-              </select>
-            </div>
+          <div>
+            <label className="block text-sm font-bold text-slate-700 mb-1.5 flex items-center gap-1"><MapPin className="w-4 h-4 text-emerald-600" /> المدينة / القرية / العزبة (مركز شبين القناطر) *</label>
+            <select className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={village} onChange={(e) => setVillage(e.target.value)}>
+              {SHIBIN_VILLAGES.map((v) => (
+                <option key={v} value={v}>{v}</option>
+              ))}
+            </select>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
