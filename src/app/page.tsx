@@ -83,7 +83,7 @@ export default function Home() {
             </div>
             <div className="hidden sm:block">
               <p className="font-extrabold text-slate-900 leading-none">أجرني • شبين القناطر</p>
-              <p className="text-xs text-slate-500 mt-1">تأجير المعدات في المدينة وجميع القرى والعزب</p>
+              <p className="text-xs text-slate-500 mt-1">أول منصة لتأجير المعدات لأهالي شبين القناطر</p>
             </div>
           </Link>
 
@@ -98,7 +98,7 @@ export default function Home() {
         <div className="relative max-w-5xl mx-auto text-center space-y-6">
           <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold">
             <BadgeCheck className="w-4 h-4" />
-            <span>أول منصة لأهالي مركز شبين القناطر وجميع القرى والعزب</span>
+            <span>منصة تأجير المعدات والأدوات لأهالي شبين القناطر</span>
           </div>
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black leading-tight">
@@ -106,7 +106,7 @@ export default function Home() {
           </h1>
 
           <p className="text-slate-300 text-base sm:text-xl max-w-2xl mx-auto">
-            محتاج هيلتي، سماعة أفراح، سلم، مولد كهرباء، أو معدة زراعية؟ استأجرها من جيرانك في شبين القناطر وكل القرى بأقل سعر وأمان تام.
+            محتاج هيلتي، سماعة أفراح، سلم، مولد كهرباء، أو معدة زراعية؟ استأجرها من جيرانك في شبين القناطر بأقل سعر وأمان تام.
           </p>
 
           <div className="bg-white p-3 rounded-3xl shadow-2xl text-slate-800 mt-10 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-2.5">
@@ -127,7 +127,7 @@ export default function Home() {
                 value={selectedVillage}
                 onChange={(e) => setSelectedVillage(e.target.value)}
               >
-                <option value="الكل">📍 كل شبين القناطر والقرى والعزب</option>
+                <option value="الكل">📍 كل مناطق شبين القناطر</option>
                 {SHIBIN_VILLAGES.map((village) => (
                   <option key={village} value={village}>{village}</option>
                 ))}
@@ -159,7 +159,7 @@ export default function Home() {
         <div className="flex justify-between items-center mb-8">
           <div>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900">المعدات المتاحة في شبين القناطر</h2>
-            <p className="text-slate-500 text-xs sm:text-sm mt-1">القليوبية • مركز شبين القناطر وجميع القرى والعزب</p>
+            <p className="text-slate-500 text-xs sm:text-sm mt-1">معدات وأدوات موثقة لأهالي شبين القناطر</p>
           </div>
           <span className="bg-emerald-50 text-emerald-700 font-extrabold px-4 py-1.5 rounded-full text-sm">
             {filtered.length} معدة متاحة
@@ -170,8 +170,8 @@ export default function Home() {
           <div className="text-center py-20 text-slate-500 font-bold">جاري تحميل المعدات...</div>
         ) : filtered.length === 0 ? (
           <div className="bg-white rounded-3xl p-14 text-center border border-slate-200 max-w-xl mx-auto space-y-4">
-            <h3 className="text-xl font-black text-slate-900">لا توجد معدات مطابقة في هذه القرية حالياً</h3>
-            <p className="text-slate-500 text-sm">اختر "كل شبين القناطر والقرى" أو كن أول من يعرض معدته في قريتك!</p>
+            <h3 className="text-xl font-black text-slate-900">لا توجد معدات مطابقة في هذه المنطقة حالياً</h3>
+            <p className="text-slate-500 text-sm">اختر "كل مناطق شبين القناطر" أو كن أول من يعرض معدته الآن!</p>
             <Link href="/add" className="inline-flex items-center gap-2 bg-emerald-600 text-white px-6 py-3 rounded-2xl font-bold">
               <PlusCircle className="w-5 h-5" /> <span>أضف أول معدة الآن</span>
             </Link>
@@ -220,7 +220,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-3">
             <span className="bg-emerald-600 text-white font-black text-xl px-3 py-1 rounded-xl">أجرني</span>
-            <span className="text-sm">منصة تأجير المعدات والأدوات لمركز شبين القناطر وجميع قراه وعزبه.</span>
+            <span className="text-sm">منصة تأجير المعدات والأدوات لأهالي شبين القناطر.</span>
           </div>
           <div className="flex items-center gap-6 text-sm">
             <Link href="/add" className="hover:text-white transition">اعرض معدتك</Link>
