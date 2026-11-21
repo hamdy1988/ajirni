@@ -5,10 +5,9 @@ import { createClient } from "@supabase/supabase-js";
 import { Search, PlusCircle, MapPin, ShieldCheck, ArrowLeft, BadgeCheck, LayoutGrid } from "lucide-react";
 import Link from "next/link";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://supabase.co";
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "placeholder-key";
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 interface Equipment {
   id: string;
