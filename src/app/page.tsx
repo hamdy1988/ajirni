@@ -33,17 +33,61 @@ const SHIBIN_VILLAGES = [
 ];
 
 const VISUAL_CATEGORIES = [
-  { name: "فساتين زفاف وسواريه", short: "فساتين زفاف", emoji: "👰", bg: "from-pink-100 to-rose-200" },
-  { name: "العدد والأدوات ومعدات البناء", short: "معدات بناء", emoji: "🛠️", bg: "from-amber-100 to-orange-200" },
-  { name: "الحفلات والأفراح والصوتيات", short: "حفلات وصوتيات", emoji: "🔊", bg: "from-purple-100 to-indigo-200" },
-  { name: "التصوير والكاميرات والإضاءة", short: "كاميرات وتصوير", emoji: "📷", bg: "from-sky-100 to-blue-200" },
-  { name: "الإلكترونيات والألعاب والبروجكتر", short: "إلكترونيات وألعاب", emoji: "🎮", bg: "from-violet-100 to-fuchsia-200" },
-  { name: "الرحلات والتخييم والشواء", short: "رحلات وتخييم", emoji: "⛺", bg: "from-emerald-100 to-teal-200" },
-  { name: "السيارات والدراجات والنقل", short: "سيارات ونقل", emoji: "🚗", bg: "from-slate-200 to-zinc-300" },
-  { name: "المستلزمات الطبية والرعاية", short: "مستلزمات طبية", emoji: "🩺", bg: "from-red-100 to-rose-200" },
-  { name: "المنزل والحديقة والتنظيف", short: "أدوات منزلية", emoji: "🏡", bg: "from-lime-100 to-green-200" },
-  { name: "المعدات الزراعية والمولدات", short: "زراعة ومولدات", emoji: "🚜", bg: "from-yellow-100 to-amber-200" },
-  { name: "مستلزمات الأطفال والألعاب", short: "مستلزمات أطفال", emoji: "🧸", bg: "from-cyan-100 to-sky-200" }
+  {
+    name: "فساتين زفاف وسواريه",
+    short: "فساتين زفاف",
+    img: "https://pexels.com"
+  },
+  {
+    name: "العدد والأدوات ومعدات البناء",
+    short: "معدات بناء",
+    img: "https://pexels.com"
+  },
+  {
+    name: "الحفلات والأفراح والصوتيات",
+    short: "حفلات وصوتيات",
+    img: "https://pexels.com"
+  },
+  {
+    name: "التصوير والكاميرات والإضاءة",
+    short: "كاميرات وتصوير",
+    img: "https://pexels.com"
+  },
+  {
+    name: "الإلكترونيات والألعاب والبروجكتر",
+    short: "إلكترونيات وألعاب",
+    img: "https://pexels.com"
+  },
+  {
+    name: "الرحلات والتخييم والشواء",
+    short: "رحلات وتخييم",
+    img: "https://pexels.com"
+  },
+  {
+    name: "السيارات والدراجات والنقل",
+    short: "سيارات ونقل",
+    img: "https://pexels.com"
+  },
+  {
+    name: "المستلزمات الطبية والرعاية",
+    short: "مستلزمات طبية",
+    img: "https://pexels.com"
+  },
+  {
+    name: "المنزل والحديقة والتنظيف",
+    short: "أدوات منزلية",
+    img: "https://pexels.com"
+  },
+  {
+    name: "المعدات الزراعية والمولدات",
+    short: "زراعة ومولدات",
+    img: "https://pexels.com"
+  },
+  {
+    name: "مستلزمات الأطفال والألعاب",
+    short: "مستلزمات أطفال",
+    img: "https://pexels.com"
+  }
 ];
 export default function Home() {
   const [equipments, setEquipments] = useState<Equipment[]>([]);
@@ -180,8 +224,13 @@ export default function Home() {
                     : "border-slate-200/80 hover:border-emerald-400 shadow-sm"
                 }`}
               >
-                <div className={`w-full h-24 rounded-xl bg-gradient-to-br ${cat.bg} flex items-center justify-center text-4xl group-hover:scale-105 transition-transform`}>
-                  {cat.emoji}
+                <div className="w-full h-24 rounded-xl overflow-hidden bg-slate-100">
+                  <img
+                    src={cat.img}
+                    alt={cat.short}
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  />
                 </div>
                 <span className={`font-extrabold text-xs sm:text-sm line-clamp-1 ${active ? "text-emerald-700" : "text-slate-800"}`}>
                   {cat.short}
